@@ -1,0 +1,3 @@
+/home/ozone/CLionProjects/TSiSA_05/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/ozone/CLionProjects/TSiSA_05/cmake-build-debug/CMakeFiles/TSiSA_05.dir
+/home/ozone/CLionProjects/TSiSA_05/cmake-build-debug/CMakeFiles/edit_cache.dir
