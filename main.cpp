@@ -50,17 +50,37 @@ double normal(size_t raw, size_t col) {
     return result;
 }
 
-void printMatrix(double mat[4][6]){
+void printMatrix(double (&mat)[4][6]){
+    std::cout << "\t\t";
     for (int i = 0; i < 4; i++){
+        std::cout << "\t" <<  names_parametrs[0][i] << "\t";
+    }
+    std::cout << "\tSUM   \t\tNORMAL\n";
+    for (int i = 0; i < 4; i++){
+        std::cout << names_parametrs[0][i] << "\t";
         for(int j = 0; j < 6; j++){
-            std::cout << mat[i][j] << "\t";
+            std::cout << "\t" << mat[i][j] << "\t";
         }
         std::cout << std::endl;
     }
-
 }
 
-void printMatrix4x4(int mat[4][4]){
+void printMatrixKreet(double (&mat)[4][6]){
+    std::cout << "\t\t";
+    for (int i = 0; i < 4; i++){
+        std::cout << "\t" <<  names_parametrs[1][i] << "\t";
+    }
+    std::cout << "\tSUM   \t\tNORMAL\n";
+    for (int i = 0; i < 4; i++){
+        std::cout << names_parametrs[1][i] << "\t";
+        for(int j = 0; j < 6; j++){
+            std::cout << "\t" << mat[i][j] << "\t";
+        }
+        std::cout << std::endl;
+    }
+}
+
+void printMatrix4x4(int (&mat)[4][4]){
     std::cout << "\t\t";
     for (int i = 0; i < 4; i++){
         std::cout << "\t" <<  names_parametrs[1][i] << "\t";
@@ -79,7 +99,7 @@ double soglasov(double Lmax, double SI){
     double OS = IS/SI;
     return OS;
 }
-double LmaxCounter(double mat[4][6]){
+double LmaxCounter(double (&mat)[4][6]){
     double Lmax = 0;
     double sumCol[4] = {0, 0, 0, 0};
     for (int col = 0; col < 4; col++){
@@ -88,7 +108,7 @@ double LmaxCounter(double mat[4][6]){
         }
     }
     for(int i = 0; i < 4; i++){
-        Lmax += sumCol[i] * mat[i][5];
+        Lmax += (sumCol[i] * mat[i][5]);
     }
     double OS = soglasov(Lmax, 0.9);
     return OS;
@@ -147,10 +167,10 @@ void Task2(){
     int best_y = 0;
     std::string name;
     for(size_t i = 0; i < 4; i++) {
-       if( objects_rate_task1[i][HouseIndex] >= best_x && objects_rate_task1[i][CharIndex] >= best_y ){
-           best_x = objects_rate_task1[i][HouseIndex];
-           best_y = objects_rate_task1[i][CharIndex];
-       }
+        if( objects_rate_task1[i][HouseIndex] >= best_x && objects_rate_task1[i][CharIndex] >= best_y ){
+            best_x = objects_rate_task1[i][HouseIndex];
+            best_y = objects_rate_task1[i][CharIndex];
+        }
     }
     for(size_t i = 0; i < 4; i++) {
         std::cout << names_parametrs[0][i] << "  (" << objects_rate_task1[i][HouseIndex] << "; " << objects_rate_task1[i][CharIndex] << ")\n";
@@ -237,32 +257,31 @@ void Task3(){
 
 void Task4(){
     double SI = 0.9;      // const
-    double Lmax = 0;
 
     double mat_1[4][6] ={ //beauty
-            {1,     0.33,  5, 3,    0, 0},
-            {3,      1,    7, 5,    0, 0},
-            {0.2,   0.14,  1, 0.33, 0, 0},
-            {0.33,  0.2,   3, 1,    0, 0}
+            {1,       0.5,    7,  4,    0, 0},
+            {2,       1,      7,  3,    0, 0},
+            {0.1423,  0.1423, 1,  0.5,  0, 0},
+            {0.25,    0.33,   2,  1,    0, 0}
     };
 
     double mat_2[4][6] ={  //financial
-            {1,    5,  3,    0.33, 0, 0},
-            {0.2,  1,  0.33, 0.14, 0, 0},
-            {0.33, 3,  1,    0.2,  0, 0},
-            {3,    7,  5,    1,    0, 0}
+            {1,    0.25,  0.33,    2, 0, 0},
+            {4,  1,  2, 7, 0, 0},
+            {3, 0.5,  1,    3,  0, 0},
+            {0.5,    0.1423,  0.33,    1,    0, 0}
     };
     double mat_3[4][6] ={ //housekeeping
-            {1,       3,  0.2, 0.33, 0, 0},
-            {0.33,    1, 0.14,  0.2, 0, 0},
-            {5,       7,    1,    3, 0, 0},
-            {0.33,  0.2,    3,    1, 0, 0}
+            {1,       2,  0.2, 0.33, 0, 0},
+            {0.5,    1, 0.1423,  0.2, 0, 0},
+            {5,       7,    1,    2, 0, 0},
+            {3,  5,    0.5,    1, 0, 0}
     };
     double mat_4[4][6] ={ //character
-            {1,    0.2,  0.33, 3, 0, 0},
-            {5,    1,    3,    7, 0, 0},
-            {3,    0.33, 1,    5, 0, 0},
-            {0.33, 0.14, 0.2,  1, 0, 0}
+            {1,    0.25,  0.33, 2, 0, 0},
+            {4,    1,    2,    7, 0, 0},
+            {3,    0.5, 1,    5, 0, 0},
+            {0.5, 0.1423, 0.2,  1, 0, 0}
     };
     double kreet[4][6] ={ //beauty
             {1,      3,    5,    7,    16,    0.507},
@@ -316,15 +335,46 @@ void Task4(){
     std::cout << "OC: " << LmaxCounter(mat_3) << "\n\n";
     printMatrix(mat_4);
     std::cout << "OC: " << LmaxCounter(mat_4) << "\n\n";
+    printMatrixKreet(kreet);
+    std::cout << "OC: " << LmaxCounter(kreet) << "\n\n";
+
+    double result_matrix_normal[4][4];
+    for(int raw = 0; raw < 4; raw++){
+        result_matrix_normal[raw][0] = mat_1[raw][5];
+        result_matrix_normal[raw][1] = mat_2[raw][5];
+        result_matrix_normal[raw][2] = mat_3[raw][5];
+        result_matrix_normal[raw][3] = mat_4[raw][5];
+    }
+
+
+    std::cout << "\nResult:\n";
+    double result[4] = {0, 0, 0, 0};
+    for(size_t raw = 0; raw < 4; raw++){
+        for(size_t col = 0; col < 4; col++){
+            result[raw]+= result_matrix_normal[raw][col] * kreet[col][5];
+        }
+        std::cout << names_parametrs[0][raw] << "\t" << result[raw] <<"\n";
+    }
+    std::cout << "\n";
+    double maxFromRes = 0;
+    size_t maxFromResIndex = 0;
+    for(size_t iter = 0; iter < 4; iter++){
+        if(result[iter] > maxFromRes){
+            maxFromRes = result[iter];
+            maxFromResIndex = iter;
+        }
+    }
+
+    std::cout << "Winner: " << names_parametrs[0][maxFromResIndex] << std::endl;
 }
 int main() {
-    std::cout << "========Task1=========\n\n";
+    std::cout << "\n=====================================[ Task1 ]=====================================\n\n";
     Task1();
-    std::cout << "========Task2=========\n\n";
+    std::cout << "\n=====================================[ Task2 ]=====================================\n\n";
     Task2();
-    std::cout << "========Task3=========\n\n";
+    std::cout << "=====================================[ Task3 ]=====================================\n\n";
     Task3();
-    std::cout << "========Task4=========\n\n";
+    std::cout << "\n=====================================[ Task4 ]=====================================\n\n";
     Task4();
 
     return 0;
