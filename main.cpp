@@ -3,6 +3,8 @@
 #include <vector>
 #include <cmath>
 #include <iomanip>
+
+int Amax1, Amax2, Amax3, Amax4;
 int objects_rate_task1[4][4] = {{4, 3, 3, 3},
                                 {5, 5, 2, 5},
                                 {2, 4, 5, 4},
@@ -47,6 +49,7 @@ double normal(size_t raw, size_t col) {
         }
     }
     double result = ((double) (Aij - Amin) / (Amax - Amin));
+    Amax1 = Amax;
     return result;
 }
 
@@ -116,7 +119,32 @@ double LmaxCounter(double (&mat)[4][6]){
 void Task1(){
 
     size_t major_col = 0;
-    std::cout << "Major rate: " << names_parametrs[1][0] << std::endl;
+    int weights[4] {8, 6, 4, 2};
+    std::cout << "Weights: \n";
+    std::cout << "\t\t";
+    for (int i = 0; i < 4; i++){
+        std::cout << "\t" <<  names_parametrs[1][i] << "\t";
+    }
+    std::cout << "\n\t\t";
+    for (size_t raws = 0; raws < 4; raws++){
+        std::cout << std::fixed << std::setprecision(3) << "\t" << weights[raws] << "\t\t";
+
+    }
+    std::cout << "\n\n";
+    double weights_normal[4] {0.4, 0.3, 0.2, 0.1};
+    std::cout << "Weights normal: \n";
+    std::cout << "\t\t";
+    for (int i = 0; i < 4; i++){
+        std::cout << "\t" <<  names_parametrs[1][i] << "\t";
+    }
+    std::cout << "\n\t\t";
+    for (size_t raws = 0; raws < 4; raws++){
+        std::cout << std::fixed << std::setprecision(3) << "\t" << weights_normal[raws] << "\t";
+
+    }
+    std::cout << "\n\n";
+
+    std::cout << "Major rate: " << names_parametrs[1][0] << "\n\n";
     double Financial = 0.2;
     double Housekeeping = 0.5;
     double Character = 0.4;
@@ -124,8 +152,13 @@ void Task1(){
     std::cout << "\n";
     for (size_t raws = 0; raws < 4; raws++){
         for(size_t col = 0; col < 4; col++){
-            if(col != major_col)
+            if(col != major_col) {
                 normolized_task1[raws][col] = normal(raws, col);
+                if(col == 1) {Amax2 = Amax1;}
+                if(col == 2) {Amax3 = Amax1;}
+                if(col == 3) {Amax4 = Amax1;}
+
+            }
             else{
                 normolized_task1[raws][col] = objects_rate_task1[raws][col];
             }
@@ -156,6 +189,13 @@ void Task1(){
         }
     }
 
+    std::cout << "\n\n+---------+----------------------+\n"
+              << "| Beauty  |   It's major rate !  |\n"
+              << "|Financial| Not less than\t" << 0.5 * Amax2 << "|\n"
+              << "|Housekeep| Not less than\t" << 0.2 * Amax3 << "|\n"
+              << "|Character| Not less than\t" << 0.3 * Amax4 << "|\n"
+              << "+---------+----------------------+\n\n";
+
     std::cout << "Best alternative: " << names_parametrs[0][maxRawIndex] << std::endl;
 }
 
@@ -173,7 +213,7 @@ void Task2(){
         }
     }
     for(size_t i = 0; i < 4; i++) {
-        std::cout << names_parametrs[0][i] << "  (" << objects_rate_task1[i][HouseIndex] << "; " << objects_rate_task1[i][CharIndex] << ")\n";
+        std::cout << names_parametrs[0][i] << "\t\t(" << objects_rate_task1[i][HouseIndex] << "; " << objects_rate_task1[i][CharIndex] << ")\n";
         if(objects_rate_task1[i][HouseIndex] == best_x && objects_rate_task1[i][CharIndex] == best_y){
             name = names_parametrs[0][i];
         }
@@ -284,10 +324,10 @@ void Task4(){
             {0.5, 0.1423, 0.2,  1, 0, 0}
     };
     double kreet[4][6] ={ //beauty
-            {1,      3,    5,    7,    16,    0.507},
-            {0.33,   1,    3,    5,    9.33,  0.295},
-            {0.2,   0.33,  1,    3,    12.2,  0.144},
-            {0.14,  0.2,   0.33, 1,    1.676, 0.053}
+            {      1,  7,    4,     3,    0, 0},
+            { 0.1423,  1, 0.33,  0.25,    0, 0},
+            {   0.25,  3,    1,  0.33,    0, 0},
+            {   0.33,  4,    3,     1,    0, 0}
     };
 
     for (int raw = 0; raw < 4; raw++){
@@ -296,6 +336,7 @@ void Task4(){
             mat_2[raw][4] += mat_2[raw][col];
             mat_3[raw][4] += mat_3[raw][col];
             mat_4[raw][4] += mat_4[raw][col];
+            kreet[raw][4] += kreet[raw][col];
         }
     }
 
@@ -303,29 +344,34 @@ void Task4(){
     double sumCol2[4] = {0,0,0,0};
     double sumCol3[4] = {0,0,0,0};
     double sumCol4[4] = {0,0,0,0};
+    double sumColK[4] = {0,0,0,0};
     for (int raw = 0; raw < 4; raw++){
         for (int col = 0; col < 4; col++){
             sumCol1[raw] += mat_1[raw][col];
             sumCol2[raw] += mat_2[raw][col];
             sumCol3[raw] += mat_3[raw][col];
             sumCol4[raw] += mat_4[raw][col];
+            sumColK[raw] += kreet[raw][col];
         }
     }
     double maxSum1 =0;
     double maxSum2 =0;
     double maxSum3 =0;
     double maxSum4 =0;
+    double maxSumK =0;
     for (int iter = 0; iter < 4; iter++){
         maxSum1 += sumCol1[iter];
         maxSum2 += sumCol2[iter];
         maxSum3 += sumCol3[iter];
         maxSum4 += sumCol4[iter];
+        maxSumK += sumColK[iter];
     }
     for (int iter = 0; iter < 4; iter++){
         mat_1[iter][5] = sumCol1[iter] / maxSum1;
         mat_2[iter][5] = sumCol2[iter] / maxSum2;
         mat_3[iter][5] = sumCol3[iter] / maxSum3;
         mat_4[iter][5] = sumCol4[iter] / maxSum4;
+        kreet[iter][5] = sumColK[iter] / maxSumK;
     }
     printMatrix(mat_1);
     std::cout << "OC: " << LmaxCounter(mat_1) << "\n\n";
